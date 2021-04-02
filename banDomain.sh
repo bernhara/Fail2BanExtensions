@@ -1,7 +1,5 @@
 #! //bin/bash
 
-# $Id: banDomain.sh,v 1.9 2020/07/21 13:26:33 root Exp root $
-
 #declare -a trusted_domain_prefix=( 127 192.168 90 86.205 )
 #!! FIXME: unable de ban subdomain
 declare -a trusted_domain_prefix=( 127.0 192.168 90 86 80.12 193.252 )
