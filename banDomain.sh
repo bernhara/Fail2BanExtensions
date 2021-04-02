@@ -15,7 +15,7 @@ do
 
     _config_unchanged=true
     
-    banned_ips_line=$( fail2ban-client status "${jail}" | grep -e '- Banned IP list:' )
+    banned_ips_line=$( fail2ban-client get sshd  banip )
 
     banned_ips=$( echo "${banned_ips_line}" | sed -e 's/.*- Banned IP list:[ \t]*//' )
 
