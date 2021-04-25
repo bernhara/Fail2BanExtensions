@@ -1,11 +1,22 @@
-#! //bin/bash
+#! /bin/bash
+
+_env_file="$( basename "$0" ".sh" ).env"
+
+if [[ -r "${_env_file}" ]]
+then
+    source "${_env_file}"
+fi
 
 #declare -a trusted_domain_prefix=( 127 192.168 90 86.205 )
 #!! FIXME: unable de ban subdomain
-declare -a trusted_domain_prefix=( 127.0 192.168 90 86 80.12 193.252 )
-declare -a trusted_domain_prefix=( 127.0 192.168 80.12 193.252 )
 
-jail=sshd
+if [[ -z "${trusted_domain_prefix}" ]]
+then
+    declare -a trusted_domain_prefix=( 127.0 192.168 90 86 80.12 193.252 )
+    declare -a trusted_domain_prefix=( 127.0 192.168 80.12 193.252 )
+fi
+
+: ${jail:=sshd}
 
 _config_unchanged=false
 until ${_config_unchanged}
