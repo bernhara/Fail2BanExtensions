@@ -24,7 +24,7 @@ do
 
     _config_unchanged=true
     
-    banned_ips_line=$( fail2ban-client get sshd  banip )
+    banned_ips_line=$( fail2ban-client status sshd | sed -n -e '/Banned IP list:/p' )
 
     banned_ips=$( echo "${banned_ips_line}" | sed -e 's/.*- Banned IP list:[ \t]*//' )
 
@@ -49,6 +49,7 @@ do
     )
     )
 
+    # For test
     # banned_ips_without_mask=( 192.168.5.8  2.224.168.43 61.146.72.252 )
 
     ip=$(
@@ -83,7 +84,7 @@ do
 
 	addr_with_mask="${ip_sub_classes[0]}.${ip_sub_classes[1]}.0.0/16"
 	echo "BAN A class: ${addr_with_mask}"
-	fail2ban-client set sshd banip "${addr_with_mask}"
+	echo fail2ban-client set sshd banip "${addr_with_mask}"
 	_config_unchanged=false
 	for baned_ip in "${banned_ips_without_mask[@]}"
 	do
@@ -91,7 +92,7 @@ do
 	    if [[ "${baned_ip_sub_classes[0]}" == "${ip_sub_classes[0]}" && "${baned_ip_sub_classes[1]}" == "${ip_sub_classes[1]}" ]]
 	    then
 		echo "UNBAN host: ${baned_ip}"
-		fail2ban-client set sshd unbanip "${baned_ip}"
+		echo fail2ban-client set sshd unbanip "${baned_ip}"
 	    fi
 	done
     fi
